@@ -1,4 +1,4 @@
-<div  fxLayout="row" fxLayoutAlign="center center" class="login-class">
+<div  fxLayout="row" fxLayoutAlign="center center" class="login-class bg full-screen">
   <mat-card class="login-box" fxFlex="25%">
     <mat-toolbar class="loginToolbar" fxLayoutAlign="center center" style="font-size:32px">Login</mat-toolbar>
     <mat-card-content fxLayout="column" class="login-form">
@@ -13,7 +13,7 @@
       </mat-form-field>
       <br>
       <br>
-      <button mat-raised-button type="submit">Login</button>
+      <button mat-raised-button type="submit" (click) = "login()">Login</button>
       <br>
     </mat-card-content>
   </mat-card>

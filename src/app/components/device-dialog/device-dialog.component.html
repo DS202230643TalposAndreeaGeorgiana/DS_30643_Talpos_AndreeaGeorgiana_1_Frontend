@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Device form</h1>
+<div mat-dialog-content>
+  <form [formGroup]="deviceForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Id</mat-label>
+      <input formControlName = "id" [readonly]="true" matInput placeholder="Automatically generated">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <input formControlName = "description" matInput placeholder="Description">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+<!--      <mat-icon matPrefix>fingerprint</mat-icon>-->
+      <mat-label>Address</mat-label>
+      <input formControlName = "address" type="text" matInput placeholder="Address">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <!--      <mat-icon matPrefix>fingerprint</mat-icon>-->
+      <mat-label>Maximum Hourly Consumption</mat-label>
+      <input formControlName = "maximumHourlyConsumption" type="number" matInput placeholder="Hourly Consumption">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-action [align]="'end'">
+  <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+  <button style="margin-left: 8px;" mat-raised-button color="primary" (click)="add()">{{actionBtn}}</button>
+</div>

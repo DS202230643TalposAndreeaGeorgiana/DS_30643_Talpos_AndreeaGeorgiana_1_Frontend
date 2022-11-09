@@ -1,0 +1,54 @@
+table {
+  width: 100%;
+
+}
+
+.cell {
+  text-align: center;
+}
+.header_cls {
+  text-align: center;
+}
+
+.example-spacer {
+  flex:1 1 auto;
+}
+.person_icon {
+  margin-right: 2%;
+  transform: scale(2);
+}
+
+.title {
+  font-size: 24px;
+}
+
+mat-form-field {
+  margin-right: 12px;
+}
+
+.charts_class {
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
+  width: 80%;
+  background-color: white;
+  flex-direction: row;
+  height: 45%;
+}
+
+.date-picker {
+  margin-top: 10%;
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
+.devices-button {
+  margin-left: 2%;
+}
+
+.scrolling-container {
+  margin-top: 4%;
+  height: 200px;
+  width: 50%;
+  margin-left: 25%;
+}
