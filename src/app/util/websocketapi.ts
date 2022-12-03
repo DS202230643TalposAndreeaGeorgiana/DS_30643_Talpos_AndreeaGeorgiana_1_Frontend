@@ -3,12 +3,13 @@ import * as SockJS from 'sockjs-client';
 import { Injectable } from '@angular/core';
 import {WebSocketShareService} from "../services/websocketshareservice";
 import {UserComponent} from "../components/user/user.component";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn:'root'
 })
 export class WebSocketAPI {
-  webSocketEndPoint: string = 'http://localhost:8080/ws';
+  webSocketEndPoint: string = environment.apiUrl + '/ws';
   topic: string = "/topic/message/" + sessionStorage.getItem("authenticatedUser");
   stompClient: any;
 

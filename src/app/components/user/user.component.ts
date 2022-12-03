@@ -11,6 +11,7 @@ import * as SockJS from 'sockjs-client';
 import {WebSocketShareService} from "../../services/websocketshareservice";
 import {WebSocketAPI} from "../../util/websocketapi";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-user',
@@ -30,8 +31,7 @@ export class UserComponent implements OnInit {
   displayedColumns: string[] = ['description', 'address', 'maximumHourlyConsumption', 'energyConsumption'];
   public barChartLegend = true;
   public barChartPlugins = [];
-  private serverUrl = 'http://localhost:8080/ws-sockets'
-  private stompClient!: any;
+
   wsData: string = 'Hello';
 
   public barChartData: ChartConfiguration<'bar'>['data'] = {

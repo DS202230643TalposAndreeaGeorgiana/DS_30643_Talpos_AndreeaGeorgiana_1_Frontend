@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {User} from "../model/user";
 import {Observable} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +27,16 @@ export class AuthenticationService {
   }
 
   currentUser!: User;
+  apiUrl!: string;
 
   constructor(private http: HttpClient, private router: Router) {
+    this.apiUrl = environment.apiUrl;
   }
 
   token: string = "";
 
   public login(user: User): boolean {
-    this.http.post("http://localhost:8080/authenticate", user, this.HTTPOptionsLogin).subscribe(data => {
+    this.http.post(this.apiUrl + "/authenticate", user, this.HTTPOptionsLogin).subscribe(data => {
       this.token = data.toString();
       sessionStorage.setItem('authToken', this.token);
       this.currentUser = user;
@@ -55,7 +58,7 @@ export class AuthenticationService {
   }
 
   public getUserRole(username: String): Observable<string> {
-    return this.http.get<string>("http://localhost:8080/users/role/" + username, this.HTTPOptionsLogin);
+    return this.http.get<string>(this.apiUrl + "/users/role/" + username, this.HTTPOptionsLogin);
   }
 
   isLoggedIn() {
