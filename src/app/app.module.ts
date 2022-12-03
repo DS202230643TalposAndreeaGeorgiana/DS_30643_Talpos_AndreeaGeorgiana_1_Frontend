@@ -31,6 +31,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {NgChartsModule} from 'ng2-charts';
 import {ScrollingModule} from "@angular/cdk/scrolling";
+import {WebSocketShareService} from "./services/websocketshareservice";
 
 
 @NgModule({
@@ -74,7 +75,7 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
-    multi: true,
+    multi: true
   },],
   bootstrap: [AppComponent]
 })

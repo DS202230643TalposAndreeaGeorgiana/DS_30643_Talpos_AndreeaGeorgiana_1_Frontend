@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {Device} from "../../model/device";
 import {MatTableDataSource} from "@angular/material/table";
 import {UserService} from "../../services/user.service";
@@ -6,6 +6,11 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserDialogComponent} from "../user-dialog/user-dialog.component";
 import {ChartConfiguration} from "chart.js";
 import {AuthenticationService} from "../../services/authentication.service";
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
+import {WebSocketShareService} from "../../services/websocketshareservice";
+import {WebSocketAPI} from "../../util/websocketapi";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-user',
@@ -15,6 +20,7 @@ import {AuthenticationService} from "../../services/authentication.service";
 export class UserComponent implements OnInit {
 
   dataSource!: MatTableDataSource<Device>;
+  socket!:WebSocket;
   dialogData!: any;
   dateObject!: any;
   measures!: number[];
@@ -24,6 +30,9 @@ export class UserComponent implements OnInit {
   displayedColumns: string[] = ['description', 'address', 'maximumHourlyConsumption', 'energyConsumption'];
   public barChartLegend = true;
   public barChartPlugins = [];
+  private serverUrl = 'http://localhost:8080/ws-sockets'
+  private stompClient!: any;
+  wsData: string = 'Hello';
 
   public barChartData: ChartConfiguration<'bar'>['data'] = {
     labels: ['12 AM', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM'],
@@ -36,12 +45,15 @@ export class UserComponent implements OnInit {
     responsive: false,
   };
 
-  constructor(private userService: UserService, private dialog: MatDialog, private authService: AuthenticationService) {
+  constructor(private userService: UserService, private dialog: MatDialog, private authService: AuthenticationService,
+              private websocketService: WebSocketShareService, private webSocketAPI: WebSocketAPI, private _snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
     this.getUsersDevices();
     this.getUserData();
+    this.webSocketAPI._connect();
+    this.onNewValueReceive();
   }
 
   getUsersDevices() {
@@ -92,8 +104,33 @@ export class UserComponent implements OnInit {
     })
   }
 
+  connect() {
+    this.webSocketAPI._connect();
+  }
+  disconnect() {
+    this.webSocketAPI._disconnect();
+  }
+  // method to receive the updated data.
+  onNewValueReceive() {
+    this.websocketService.getNewValue().subscribe(resp => {
+      this.wsData = resp;
+      if(resp === "Exceeded!!") {
+        this._snackBar.open(sessionStorage.getItem("authenticatedUser") + ", the maximum hourly consumption is exceeded!!", "",{
+          panelClass: ['snackBarRed']
+        });
+      } else {
+        this._snackBar.open("New data added for your device: " + resp, "", {
+          panelClass:['snackBarGreen']
+        });
+      }
+      console.log("response" + resp);
+    });
+
+  }
+
   logout() {
     this.authService.logout();
   }
+
 
 }

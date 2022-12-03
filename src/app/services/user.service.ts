@@ -28,4 +28,8 @@ export class UserService {
     return this.http.get<number[]>("http://localhost:8080/measures/day/" + timestamp + "/" + id, this.authService.HTTPOptions);
   }
 
+  sendNotificationToServer() {
+    return this.http.get("http://localhost:8080/app/application/", this.authService.HTTPOptions);
+  }
+
 }
