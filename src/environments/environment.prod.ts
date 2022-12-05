@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://energy-platform.azurewebsites.net'
+  apiUrl: '20.113.121.79'
 };
