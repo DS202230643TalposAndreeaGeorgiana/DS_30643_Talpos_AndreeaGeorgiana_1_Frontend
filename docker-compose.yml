@@ -2,6 +2,6 @@ version: '3'
 
 services:
   angular-app:
-    image: frontend
+    image: containerregistrytalposandreeageorgiana30643.azurecr.io/frontend
     ports:
        - "4200:4200"
