@@ -4,4 +4,4 @@ services:
   angular-app:
     image: containerregistrytalposandreeageorgiana30643.azurecr.io/frontend
     ports:
-       - "4200:4200"
+       - "80:80"
