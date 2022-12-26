@@ -32,6 +32,8 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {NgChartsModule} from 'ng2-charts';
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {WebSocketShareService} from "./services/websocketshareservice";
+import { ChatUiComponent } from './components/chat-ui/chat-ui.component';
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
@@ -44,6 +46,7 @@ import {WebSocketShareService} from "./services/websocketshareservice";
     ErrorComponent,
     UserDialogComponent,
     DeviceDialogComponent,
+    ChatUiComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,8 @@ import {WebSocketShareService} from "./services/websocketshareservice";
     MatDatepickerModule,
     MatNativeDateModule,
     NgChartsModule,
-    ScrollingModule
+    ScrollingModule,
+    MatListModule
 
   ],
   providers: [{
