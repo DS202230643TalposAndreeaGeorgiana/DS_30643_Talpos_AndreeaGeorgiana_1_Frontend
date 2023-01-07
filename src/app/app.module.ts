@@ -32,8 +32,8 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {NgChartsModule} from 'ng2-charts';
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {WebSocketShareService} from "./services/websocketshareservice";
-import { ChatUiComponent } from './components/chat-ui/chat-ui.component';
 import {MatListModule} from "@angular/material/list";
+import {ChatUiComponent} from "./components/chat-ui/chat-ui.component";
 
 
 @NgModule({

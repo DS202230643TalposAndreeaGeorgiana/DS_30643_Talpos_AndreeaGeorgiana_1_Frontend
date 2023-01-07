@@ -1,54 +1,79 @@
 import { Injectable } from '@angular/core';
-import * as grpc from '@grpc/grpc-js';
-import { loadPackageDefinition } from '@grpc/proto-loader';
-import { Observable, Subject } from 'rxjs';
-import { Message } from './message';
+import {ChatServiceClient, Status} from "../../../generated/chat_pb_service";
+import {Observable, Subscriber} from "rxjs";
+declare function require(path: string) : any;
 
+import {grpc} from "@improbable-eng/grpc-web";
+import * as chat_pb from "../../../generated/chat_pb";
+import {ChatMessage, ReceiveMessagesRequests} from "../../../generated/chat_pb";
+// import {ChatServiceClient, UnaryResponse} from "../../../generated/chat_pb_service";
+// import {ChatMessage, Empty} from "../../../generated/chat_pb";
+// import {Observable} from "rxjs";
+export { ChatMessage, ReceiveMessagesRequests };
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
-  private client: grpc.Client;
-  private messagesSubject = new Subject<Message>();
-  private sendMessageSubject = new Subject<void>();
+  client: ChatServiceClient;
+
 
   constructor() {
-    const packageDefinition = loadPackageDefinition(require('../proto/demo.json'));
-    const packageName = Object.keys(packageDefinition)[0];
-    const serviceName = Object.keys(packageDefinition[packageName])[0];
-    const service = packageDefinition[packageName][serviceName];
-    this.client = new grpc.Client(`localhost:50051`, grpc.credentials.createInsecure());
+    this.client = new ChatServiceClient('http://localhost:8080');
   }
 
-  getMessages(): Observable<Message> {
-    this.client.makeUnaryRequest(
-      service.getMessages,
-      {},
-      (error, response) => {
-        if (error) {
-          console.error(error);
-        } else {
-          this.messagesSubject.next(response);
+  receiveMessages(): Observable<ChatMessage> {
+    return new Observable(obs => {
+      this.initStream(obs);
+    });
+  }
+
+  private initStream(obs: Subscriber<ChatMessage>): void {
+    // console.log('ApiService.receiveMessages');
+    const req = new ReceiveMessagesRequests();
+    const stream = this.client.receiveMessages(req);
+
+    stream.on('status', (status: Status) => {
+      // console.log('ApiService.getStream.status', status);
+    });
+    stream.on('data', (message: ChatMessage) => {
+      // console.log('ApiService.getStream.data', message.toObject());
+      obs.next(message);
+    });
+    stream.on('end', () => {
+      // console.log('ApiService.getStream.end');
+      // obs.complete();
+      this.initStream(obs);
+    });
+  }
+
+  sendMessage(request: ChatMessage): Promise<ChatMessage> {
+    console.log("am ajuns aici")
+    return new Promise((resolve, reject) => {
+      // console.log('ApiService.sendMessage', request);
+
+      this.client.sendMessage(request, (err, response: any) => {
+        // console.log('ApiService.sendMessage.response', response);
+        if (err) {
+          return reject(err);
         }
-      }
-    );
-    return this.messagesSubject.asObservable();
+        resolve(response);
+      });
+    });
   }
 
-  sendMessage(message: string): Observable<void> {
-    this.client.makeUnaryRequest(
-      service.sendMessage,
-      { message },
-      (error, response) => {
-        if (error) {
-          console.error(error);
-        } else {
-          this.sendMessageSubject.next();
-        }
-      }
-    );
-    return this.sendMessageSubject.asObservable();
-  }
+  ping(request: ChatMessage): Promise<ChatMessage> {
+    return new Promise((resolve, reject) => {
+      console.log('ApiService.get', request);
 
+      this.client.ping(request,
+        (error, responseMessage: ChatMessage | null) => {
+          console.log('ApiService.get.response', responseMessage);
+          if (error) {
+            return reject(error);
+          }
+          resolve(responseMessage!);
+        });
+    });
+  }
 }

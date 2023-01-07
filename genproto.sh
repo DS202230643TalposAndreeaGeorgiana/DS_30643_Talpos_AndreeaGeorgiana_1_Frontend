@@ -5,4 +5,4 @@ protoc \
        --plugin="protoc-gen-ts=${PROTOC_GEN_TS_PATH}" \
        --js_out="import_style=commonjs,binary:${PROTOC_OUT_DIR}" \
        --ts_out="service=grpc-web:${PROTOC_OUT_DIR}" \
-       protos/chat.proto
+       proto/chat.proto

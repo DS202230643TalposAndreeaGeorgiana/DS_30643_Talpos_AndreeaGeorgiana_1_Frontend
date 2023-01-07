@@ -1,11 +1,23 @@
 syntax = "proto3";
+
+option java_multiple_files = true;
+
+import "google/protobuf/empty.proto";
+
+
+service ChatService {
+  rpc ReceiveMessages (ReceiveMessagesRequests) returns (stream ChatMessage) {}
+  rpc SendMessage (ChatMessage) returns (google.protobuf.Empty) {}
+  rpc Ping (ChatMessage) returns (ChatMessage) {}
+}
+
 message ChatMessage {
   string message = 1;
   string user = 2;
+  string to = 3;
 }
 
-message Empty {}
-
-service ChatService {
-  rpc SendMessage (ChatMessage) returns (Empty) {}
+message ReceiveMessagesRequests {
+  int32 numberOfMessages = 1;
+  int32 maxAgeSeconds = 2;
 }

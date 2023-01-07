@@ -5,6 +5,7 @@ import {AdminComponent} from "./components/admin/admin.component";
 import {UserComponent} from "./components/user/user.component";
 import {ErrorComponent} from "./components/error/error.component";
 import {AuthGuard} from "./auth.guard";
+import {ChatUiComponent} from "./components/chat-ui/chat-ui.component";
 
 
 
@@ -26,6 +27,9 @@ const routes: Routes = [
     data: {
       role: 'ROLE_CLIENT'
     }
+  },
+  {
+    path:'chat', component: ChatUiComponent,
   },
   {
     path:'**', component: ErrorComponent

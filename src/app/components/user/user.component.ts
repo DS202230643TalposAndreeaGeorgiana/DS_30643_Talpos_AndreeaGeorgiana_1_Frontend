@@ -6,12 +6,11 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserDialogComponent} from "../user-dialog/user-dialog.component";
 import {ChartConfiguration} from "chart.js";
 import {AuthenticationService} from "../../services/authentication.service";
-import * as Stomp from 'stompjs';
-import * as SockJS from 'sockjs-client';
 import {WebSocketShareService} from "../../services/websocketshareservice";
 import {WebSocketAPI} from "../../util/websocketapi";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {environment} from "../../../environments/environment";
+import {ChatMessage} from "../../services/chat.service";
+import {ChatService} from "../../services/chat.service";
 
 @Component({
   selector: 'app-user',
@@ -31,6 +30,8 @@ export class UserComponent implements OnInit {
   displayedColumns: string[] = ['description', 'address', 'maximumHourlyConsumption', 'energyConsumption'];
   public barChartLegend = true;
   public barChartPlugins = [];
+  messages: ChatMessage[] = [];
+
 
   wsData: string = 'Hello';
 
@@ -46,7 +47,7 @@ export class UserComponent implements OnInit {
   };
 
   constructor(private userService: UserService, private dialog: MatDialog, private authService: AuthenticationService,
-              private websocketService: WebSocketShareService, private webSocketAPI: WebSocketAPI, private _snackBar: MatSnackBar) {
+              private websocketService: WebSocketShareService, private webSocketAPI: WebSocketAPI, private _snackBar: MatSnackBar, private chatService: ChatService) {
   }
 
   ngOnInit(): void {
@@ -54,6 +55,14 @@ export class UserComponent implements OnInit {
     this.getUserData();
     this.webSocketAPI._connect();
     this.onNewValueReceive();
+    // this.chatService.receiveMessages().subscribe((m: ChatMessage) => {
+    //   // this.zone.run(() => {
+    //   // });
+    //   console.log('Received chat message via stream', m.toObject());
+    //   // this.messages = this.messages.concat(m);
+    //   this.messages = [m, ...this.messages];
+    //   // this.cdRef.detectChanges();
+    // });
   }
 
   getUsersDevices() {
@@ -79,6 +88,13 @@ export class UserComponent implements OnInit {
     })
   }
 
+  sendMessage(messageString: string, user: string) {
+    // console.log('message: {}, user {}', messageString, user);
+    const message = new ChatMessage();
+    message.setMessage(messageString);
+    message.setUser(user);
+    this.chatService.sendMessage(message);
+  }
   showCharts(row: any) {
     this.selectedDevice = row;
     this.charts = !this.charts;

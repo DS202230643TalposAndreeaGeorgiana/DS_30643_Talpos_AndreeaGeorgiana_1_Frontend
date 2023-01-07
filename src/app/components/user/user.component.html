@@ -7,6 +7,12 @@
     <button mat-raised-button class="devices-button" (click)="logout()">
       Logout
     </button>
+    <input #message matInput type="text" name="message" placeholder="Message" />
+    <input #user matInput type="text" name="user" placeholder="User" />
+
+    <button class="btn" (click)="sendMessage(message.value, user.value)">
+      Send
+    </button>
 
   </mat-toolbar>
   <cdk-virtual-scroll-viewport itemSize="48" class="scrolling-container">
