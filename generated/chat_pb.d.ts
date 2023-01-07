@@ -11,6 +11,9 @@ export class ChatMessage extends jspb.Message {
   getUser(): string;
   setUser(value: string): void;
 
+  getTo(): string;
+  setTo(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ChatMessage.AsObject;
   static toObject(includeInstance: boolean, msg: ChatMessage): ChatMessage.AsObject;
@@ -25,6 +28,7 @@ export namespace ChatMessage {
   export type AsObject = {
     message: string,
     user: string,
+    to: string,
   }
 }
 

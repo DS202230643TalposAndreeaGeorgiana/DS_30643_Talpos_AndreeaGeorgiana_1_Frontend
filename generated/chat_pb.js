@@ -94,7 +94,8 @@ proto.ChatMessage.prototype.toObject = function(opt_includeInstance) {
 proto.ChatMessage.toObject = function(includeInstance, msg) {
   var f, obj = {
     message: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    user: jspb.Message.getFieldWithDefault(msg, 2, "")
+    user: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    to: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -139,6 +140,10 @@ proto.ChatMessage.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setUser(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTo(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -182,6 +187,13 @@ proto.ChatMessage.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getTo();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
 };
 
 
@@ -218,6 +230,24 @@ proto.ChatMessage.prototype.getUser = function() {
  */
 proto.ChatMessage.prototype.setUser = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional string to = 3;
+ * @return {string}
+ */
+proto.ChatMessage.prototype.getTo = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.ChatMessage} returns this
+ */
+proto.ChatMessage.prototype.setTo = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

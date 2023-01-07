@@ -8,6 +8,7 @@ import {UserDialogComponent} from "../user-dialog/user-dialog.component";
 import {DeviceDialogComponent} from "../device-dialog/device-dialog.component";
 import {UserService} from "../../services/user.service";
 import {AuthenticationService} from "../../services/authentication.service";
+import {ChatUiComponent} from "../chat-ui/chat-ui.component";
 
 @Component({
   selector: 'app-admin',
@@ -16,7 +17,7 @@ import {AuthenticationService} from "../../services/authentication.service";
 })
 export class AdminComponent implements OnInit {
 
-  displayedColumnsUsers: string[] = ['username', 'role', 'edit', 'delete', 'manageDevices'];
+  displayedColumnsUsers: string[] = ['username', 'role', 'edit', 'delete', 'manageDevices', 'chat'];
   displayedColumnsDevices: string[] = ['id', 'description', 'address', 'maximumHourlyConsumption', 'edit', 'delete'];
   displayedColumnsUserDevices: string[] = ['id', 'description', 'address', 'maximumHourlyConsumption', 'remove'];
   displayedDevices: string[] = ['id', 'description', 'associate'];
@@ -28,9 +29,12 @@ export class AdminComponent implements OnInit {
   showDevices: boolean = false;
   showAllDevices: boolean = false;
   showUserDevices: boolean = false;
+  chatWithUser1: boolean = false;
+  chatWithUser2: boolean = false;
   expandedRow!: any;
   row!: any;
   searchValue!: string;
+
 
   constructor(private adminService: AdminService, private dialog: MatDialog, private userService: UserService, private authService: AuthenticationService) {
   }
@@ -95,6 +99,7 @@ export class AdminComponent implements OnInit {
       }
     )
   }
+
 
   deleteDevice(deviceId: number) {
     this.adminService.deleteDevice(deviceId).subscribe(
@@ -174,6 +179,15 @@ export class AdminComponent implements OnInit {
       }, () => {
         alert("Not found!")
       });
+    }
+  }
+
+  chatWithUsers(row: any) {
+    if(row.username === 'user1') {
+      this.chatWithUser1 = !this.chatWithUser2;
+    }
+    if(row.username === 'user2') {
+      this.chatWithUser2 = !this.chatWithUser2;
     }
   }
 

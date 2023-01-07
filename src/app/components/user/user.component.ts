@@ -11,6 +11,7 @@ import {WebSocketAPI} from "../../util/websocketapi";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ChatMessage} from "../../services/chat.service";
 import {ChatService} from "../../services/chat.service";
+import {ChatUiComponent} from "../chat-ui/chat-ui.component";
 
 @Component({
   selector: 'app-user',
@@ -86,6 +87,12 @@ export class UserComponent implements OnInit {
         this.getUserData();
       }
     })
+  }
+
+  chatWithAdmin() {
+    this.dialog.open(ChatUiComponent, {
+      width: '30%',
+    });
   }
 
   sendMessage(messageString: string, user: string) {

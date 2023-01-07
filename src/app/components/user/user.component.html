@@ -3,16 +3,19 @@
     <mat-icon class="person_icon">person</mat-icon>
     <span class="title">Client page</span>
     <span class="example-spacer"></span>
-    <button mat-raised-button (click)="manageAccount()"> Manage your account</button>
+    <button mat-raised-button (click)="chatWithAdmin()">
+      Chat with Admin
+    </button>
+    <button mat-raised-button class="devices-button" (click)="manageAccount()"> Manage your account</button>
     <button mat-raised-button class="devices-button" (click)="logout()">
       Logout
     </button>
-    <input #message matInput type="text" name="message" placeholder="Message" />
-    <input #user matInput type="text" name="user" placeholder="User" />
+<!--    <input #message matInput type="text" name="message" placeholder="Message" />-->
+<!--    <input #user matInput type="text" name="user" placeholder="User" />-->
 
-    <button class="btn" (click)="sendMessage(message.value, user.value)">
-      Send
-    </button>
+<!--    <button class="btn" (click)="sendMessage(message.value, user.value)">-->
+<!--      Send-->
+<!--    </button>-->
 
   </mat-toolbar>
   <cdk-virtual-scroll-viewport itemSize="48" class="scrolling-container">
