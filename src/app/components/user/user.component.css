@@ -56,3 +56,8 @@ mat-form-field {
 .snackBar {
   background: darkred;
 }
+
+.chat {
+  width: 30%;
+  margin-left: 35%;
+}

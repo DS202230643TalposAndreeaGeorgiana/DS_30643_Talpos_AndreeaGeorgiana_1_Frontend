@@ -5,3 +5,11 @@ services:
     image: frontend
     ports:
        - "4200:4200"
+
+  proxy:
+    image: envoyproxy/envoy-alpine:v1.14.1
+    ports:
+      - "8080:8080"
+      - "9901:9901"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml

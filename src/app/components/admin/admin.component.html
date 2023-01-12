@@ -75,6 +75,11 @@
   <!--      <button mat-icon-button *ngIf="element === expandedRow" (click)="hideDevicesTable()"> <mat-icon>keyboard_arrow_down</mat-icon> </button>-->
       </td>
     </ng-container>
+    <ng-container matColumnDef="chat" >
+      <th mat-header-cell *matHeaderCellDef class="header_col"> Chat </th>
+
+      <td mat-cell *matCellDef="let element" class="cols"> <button mat-icon-button (click)="chatWithUsers(element)"> <mat-icon>chat</mat-icon> </button> </td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers;"></tr>
@@ -126,14 +131,6 @@
 
 <div  *ngIf="showUserDevices">
   <cdk-virtual-scroll-viewport itemSize="48" class="scrolling-container">
-<!--  <button mat-icon-button> <mat-icon>library_add</mat-icon></button>-->
-<!--  <mat-form-field appearance="fill">-->
-<!--    <mat-label>Assign new device</mat-label>-->
-<!--    <mat-select>-->
-<!--      <mat-option>None</mat-option>-->
-<!--      <mat-option *ngFor="let device of devices" [value]="device">{{device}}</mat-option>-->
-<!--    </mat-select>-->
-<!--  </mat-form-field>-->
 <table
   mat-table
   [dataSource]="dataSourceUserDevices"
@@ -195,6 +192,11 @@
     <tr mat-row *matRowDef="let row; columns: displayedDevices;"></tr>
   </table>
   </cdk-virtual-scroll-viewport>
-</div>>
 </div>
+</div>
+  <div style="display: flex; flex-grow: 20">
+    <app-chat-ui class="chat" [receiver]="'user1'" [chatWithUser1]="chatWithUser1" *ngIf="chatWithUser1"></app-chat-ui>
+    <app-chat-ui class="chat" [receiver]="'user2'" [chatWithUser1]="chatWithUser2" *ngIf="chatWithUser2"></app-chat-ui>
+  </div>
+
 </div>

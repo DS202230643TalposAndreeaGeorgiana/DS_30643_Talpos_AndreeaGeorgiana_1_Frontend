@@ -6,12 +6,12 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserDialogComponent} from "../user-dialog/user-dialog.component";
 import {ChartConfiguration} from "chart.js";
 import {AuthenticationService} from "../../services/authentication.service";
-import * as Stomp from 'stompjs';
-import * as SockJS from 'sockjs-client';
 import {WebSocketShareService} from "../../services/websocketshareservice";
 import {WebSocketAPI} from "../../util/websocketapi";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {environment} from "../../../environments/environment";
+import {ChatMessage} from "../../services/chat.service";
+import {ChatService} from "../../services/chat.service";
+import {ChatUiComponent} from "../chat-ui/chat-ui.component";
 
 @Component({
   selector: 'app-user',
@@ -31,6 +31,9 @@ export class UserComponent implements OnInit {
   displayedColumns: string[] = ['description', 'address', 'maximumHourlyConsumption', 'energyConsumption'];
   public barChartLegend = true;
   public barChartPlugins = [];
+  messages: ChatMessage[] = [];
+  chatWithAdm: boolean = false;
+
 
   wsData: string = 'Hello';
 
@@ -46,14 +49,24 @@ export class UserComponent implements OnInit {
   };
 
   constructor(private userService: UserService, private dialog: MatDialog, private authService: AuthenticationService,
-              private websocketService: WebSocketShareService, private webSocketAPI: WebSocketAPI, private _snackBar: MatSnackBar) {
+              private websocketService: WebSocketShareService, private webSocketAPI: WebSocketAPI, private _snackBar: MatSnackBar, private chatService: ChatService) {
   }
 
   ngOnInit(): void {
     this.getUsersDevices();
     this.getUserData();
     this.webSocketAPI._connect();
-    this.onNewValueReceive();
+    // this.webSocketAPI.connectTyping();
+
+    // this.onNewValueReceive();
+    // this.chatService.receiveMessages().subscribe((m: ChatMessage) => {
+    //   // this.zone.run(() => {
+    //   // });
+    //   console.log('Received chat message via stream', m.toObject());
+    //   // this.messages = this.messages.concat(m);
+    //   this.messages = [m, ...this.messages];
+    //   // this.cdRef.detectChanges();
+    // });
   }
 
   getUsersDevices() {
@@ -79,6 +92,21 @@ export class UserComponent implements OnInit {
     })
   }
 
+  chatWithAdmin() {
+    this.chatWithAdm = !this.chatWithAdm;
+    // this.webSocketAPI.connectSeen();
+    // this.dialog.open(ChatUiComponent, {
+    //   width: '30%',
+    // });
+  }
+
+  sendMessage(messageString: string, user: string) {
+    // console.log('message: {}, user {}', messageString, user);
+    const message = new ChatMessage();
+    message.setMessage(messageString);
+    message.setUser(user);
+    this.chatService.sendMessage(message);
+  }
   showCharts(row: any) {
     this.selectedDevice = row;
     this.charts = !this.charts;
@@ -107,26 +135,26 @@ export class UserComponent implements OnInit {
   connect() {
     this.webSocketAPI._connect();
   }
+
   disconnect() {
     this.webSocketAPI._disconnect();
   }
   // method to receive the updated data.
-  onNewValueReceive() {
-    this.websocketService.getNewValue().subscribe(resp => {
-      this.wsData = resp;
-      if(resp === "Exceeded!!") {
-        this._snackBar.open(sessionStorage.getItem("authenticatedUser") + ", the maximum hourly consumption is exceeded!!", "",{
-          panelClass: ['snackBarRed']
-        });
-      } else {
-        this._snackBar.open("New data added for your device: " + resp, "", {
-          panelClass:['snackBarGreen']
-        });
-      }
-      console.log("response" + resp);
-    });
-
-  }
+  // onNewValueReceive() {
+  //   this.websocketService.getNewValue().subscribe(resp => {
+  //     this.wsData = resp;
+  //     if(resp === "Exceeded!!") {
+  //       this._snackBar.open(sessionStorage.getItem("authenticatedUser") + ", the maximum hourly consumption is exceeded!!", "",{
+  //         panelClass: ['snackBarRed']
+  //       });
+  //     } else {
+  //       this._snackBar.open("New data added for your device: " + resp, "", {
+  //         panelClass:['snackBarGreen']
+  //       });
+  //     }
+  //     console.log("response" + resp);
+  //   });
+  // }
 
   logout() {
     this.authService.logout();

@@ -13,7 +13,16 @@ export class WebSocketShareService implements OnDestroy {
   onNewValueReceive(msg: string) {
     this.blogDataSubject.next(msg);
   }
+
   getNewValue(): Observable<string> {
+    return this.blogDataSubject.asObservable();
+  }
+
+  onNewValueReceiveTyping(msg: string) {
+    this.blogDataSubject.next(msg);
+  }
+
+  getNewValueTyping(): Observable<string> {
     return this.blogDataSubject.asObservable();
   }
 }
