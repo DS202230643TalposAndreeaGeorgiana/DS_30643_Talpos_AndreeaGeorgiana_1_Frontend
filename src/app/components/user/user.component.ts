@@ -32,6 +32,7 @@ export class UserComponent implements OnInit {
   public barChartLegend = true;
   public barChartPlugins = [];
   messages: ChatMessage[] = [];
+  chatWithAdm: boolean = false;
 
 
   wsData: string = 'Hello';
@@ -55,7 +56,9 @@ export class UserComponent implements OnInit {
     this.getUsersDevices();
     this.getUserData();
     this.webSocketAPI._connect();
-    this.onNewValueReceive();
+    // this.webSocketAPI.connectTyping();
+
+    // this.onNewValueReceive();
     // this.chatService.receiveMessages().subscribe((m: ChatMessage) => {
     //   // this.zone.run(() => {
     //   // });
@@ -90,9 +93,11 @@ export class UserComponent implements OnInit {
   }
 
   chatWithAdmin() {
-    this.dialog.open(ChatUiComponent, {
-      width: '30%',
-    });
+    this.chatWithAdm = !this.chatWithAdm;
+    // this.webSocketAPI.connectSeen();
+    // this.dialog.open(ChatUiComponent, {
+    //   width: '30%',
+    // });
   }
 
   sendMessage(messageString: string, user: string) {
@@ -130,26 +135,26 @@ export class UserComponent implements OnInit {
   connect() {
     this.webSocketAPI._connect();
   }
+
   disconnect() {
     this.webSocketAPI._disconnect();
   }
   // method to receive the updated data.
-  onNewValueReceive() {
-    this.websocketService.getNewValue().subscribe(resp => {
-      this.wsData = resp;
-      if(resp === "Exceeded!!") {
-        this._snackBar.open(sessionStorage.getItem("authenticatedUser") + ", the maximum hourly consumption is exceeded!!", "",{
-          panelClass: ['snackBarRed']
-        });
-      } else {
-        this._snackBar.open("New data added for your device: " + resp, "", {
-          panelClass:['snackBarGreen']
-        });
-      }
-      console.log("response" + resp);
-    });
-
-  }
+  // onNewValueReceive() {
+  //   this.websocketService.getNewValue().subscribe(resp => {
+  //     this.wsData = resp;
+  //     if(resp === "Exceeded!!") {
+  //       this._snackBar.open(sessionStorage.getItem("authenticatedUser") + ", the maximum hourly consumption is exceeded!!", "",{
+  //         panelClass: ['snackBarRed']
+  //       });
+  //     } else {
+  //       this._snackBar.open("New data added for your device: " + resp, "", {
+  //         panelClass:['snackBarGreen']
+  //       });
+  //     }
+  //     console.log("response" + resp);
+  //   });
+  // }
 
   logout() {
     this.authService.logout();

@@ -2,7 +2,6 @@
 // file: chat.proto
 
 import * as chat_pb from "./chat_pb";
-import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 import {grpc} from "@improbable-eng/grpc-web";
 
 type ChatServiceReceiveMessages = {
@@ -20,7 +19,7 @@ type ChatServiceSendMessage = {
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof chat_pb.ChatMessage;
-  readonly responseType: typeof google_protobuf_empty_pb.Empty;
+  readonly responseType: typeof chat_pb.Empty;
 };
 
 type ChatServicePing = {
@@ -75,11 +74,11 @@ export class ChatServiceClient {
   sendMessage(
     requestMessage: chat_pb.ChatMessage,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: google_protobuf_empty_pb.Empty|null) => void
+    callback: (error: ServiceError|null, responseMessage: chat_pb.Empty|null) => void
   ): UnaryResponse;
   sendMessage(
     requestMessage: chat_pb.ChatMessage,
-    callback: (error: ServiceError|null, responseMessage: google_protobuf_empty_pb.Empty|null) => void
+    callback: (error: ServiceError|null, responseMessage: chat_pb.Empty|null) => void
   ): UnaryResponse;
   ping(
     requestMessage: chat_pb.ChatMessage,

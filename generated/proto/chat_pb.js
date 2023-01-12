@@ -95,7 +95,8 @@ proto.ChatMessage.toObject = function(includeInstance, msg) {
   var f, obj = {
     message: jspb.Message.getFieldWithDefault(msg, 1, ""),
     user: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    to: jspb.Message.getFieldWithDefault(msg, 3, "")
+    to: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    read: jspb.Message.getBooleanFieldWithDefault(msg, 4, false)
   };
 
   if (includeInstance) {
@@ -144,6 +145,10 @@ proto.ChatMessage.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setTo(value);
       break;
+    case 4:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setRead(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -191,6 +196,13 @@ proto.ChatMessage.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeString(
       3,
+      f
+    );
+  }
+  f = message.getRead();
+  if (f) {
+    writer.writeBool(
+      4,
       f
     );
   }
@@ -248,6 +260,24 @@ proto.ChatMessage.prototype.getTo = function() {
  */
 proto.ChatMessage.prototype.setTo = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional bool read = 4;
+ * @return {boolean}
+ */
+proto.ChatMessage.prototype.getRead = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 4, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.ChatMessage} returns this
+ */
+proto.ChatMessage.prototype.setRead = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 4, value);
 };
 
 

@@ -14,6 +14,9 @@ export class ChatMessage extends jspb.Message {
   getTo(): string;
   setTo(value: string): void;
 
+  getRead(): boolean;
+  setRead(value: boolean): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ChatMessage.AsObject;
   static toObject(includeInstance: boolean, msg: ChatMessage): ChatMessage.AsObject;
@@ -29,6 +32,7 @@ export namespace ChatMessage {
     message: string,
     user: string,
     to: string,
+    read: boolean,
   }
 }
 

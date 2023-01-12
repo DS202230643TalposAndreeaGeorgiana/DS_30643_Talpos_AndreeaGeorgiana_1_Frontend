@@ -131,14 +131,6 @@
 
 <div  *ngIf="showUserDevices">
   <cdk-virtual-scroll-viewport itemSize="48" class="scrolling-container">
-<!--  <button mat-icon-button> <mat-icon>library_add</mat-icon></button>-->
-<!--  <mat-form-field appearance="fill">-->
-<!--    <mat-label>Assign new device</mat-label>-->
-<!--    <mat-select>-->
-<!--      <mat-option>None</mat-option>-->
-<!--      <mat-option *ngFor="let device of devices" [value]="device">{{device}}</mat-option>-->
-<!--    </mat-select>-->
-<!--  </mat-form-field>-->
 <table
   mat-table
   [dataSource]="dataSourceUserDevices"
@@ -203,8 +195,8 @@
 </div>
 </div>
   <div style="display: flex; flex-grow: 20">
-    <app-chat-ui class="chat" [receiver]="'user1'" *ngIf="chatWithUser1"></app-chat-ui>
-    <app-chat-ui class="chat"[receiver]="'user2'" *ngIf="chatWithUser2"></app-chat-ui>
+    <app-chat-ui class="chat" [receiver]="'user1'" [chatWithUser1]="chatWithUser1" *ngIf="chatWithUser1"></app-chat-ui>
+    <app-chat-ui class="chat" [receiver]="'user2'" [chatWithUser1]="chatWithUser2" *ngIf="chatWithUser2"></app-chat-ui>
   </div>
 
 </div>

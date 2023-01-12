@@ -5,7 +5,10 @@ declare function require(path: string) : any;
 
 import {grpc} from "@improbable-eng/grpc-web";
 import * as chat_pb from "../../../generated/chat_pb";
-import {ChatMessage, ReceiveMessagesRequests} from "../../../generated/chat_pb";
+import {
+  ChatMessage,
+  ReceiveMessagesRequests
+} from "../../../generated/chat_pb";
 // import {ChatServiceClient, UnaryResponse} from "../../../generated/chat_pb_service";
 // import {ChatMessage, Empty} from "../../../generated/chat_pb";
 // import {Observable} from "rxjs";
@@ -61,6 +64,21 @@ export class ChatService {
       });
     });
   }
+
+  // markMessageAsRead(request: MarkMessageAsReadRequest): Promise<MarkMessageAsReadResponse> {
+  //   console.log("am ajuns aici in read")
+  //   return new Promise((resolve, reject) => {
+  //     // console.log('ApiService.sendMessage', request);
+  //     // request.setRead(false);
+  //     this.client.markMessageAsRead(request, (err, response: any) => {
+  //       // console.log('ApiService.sendMessage.response', response);
+  //       if (err) {
+  //         return reject(err);
+  //       }
+  //       resolve(response);
+  //     });
+  //   });
+  // }
 
   ping(request: ChatMessage): Promise<ChatMessage> {
     return new Promise((resolve, reject) => {

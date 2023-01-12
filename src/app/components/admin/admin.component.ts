@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
 import {User} from "../../model/user";
 import {AdminService} from "../../services/admin.service";
 import {MatTableDataSource} from "@angular/material/table";
@@ -9,6 +9,7 @@ import {DeviceDialogComponent} from "../device-dialog/device-dialog.component";
 import {UserService} from "../../services/user.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {ChatUiComponent} from "../chat-ui/chat-ui.component";
+import {WebSocketAPI} from "../../util/websocketapi";
 
 @Component({
   selector: 'app-admin',
@@ -24,7 +25,6 @@ export class AdminComponent implements OnInit {
   dataSourceUserDevices!: MatTableDataSource<Device>;
   dataSourceUsers!: MatTableDataSource<User>;
   dataSourceDevices!: MatTableDataSource<Device>
-  // USERS: User[] = [{"id":1,"username":"admin","password":"admin","role":"ROLE_ADMIN","associatedDevices":[]}]
   showUsers: boolean = false;
   showDevices: boolean = false;
   showAllDevices: boolean = false;
@@ -36,12 +36,14 @@ export class AdminComponent implements OnInit {
   searchValue!: string;
 
 
-  constructor(private adminService: AdminService, private dialog: MatDialog, private userService: UserService, private authService: AuthenticationService) {
+  constructor(private adminService: AdminService, private dialog: MatDialog, private userService: UserService,
+              private authService: AuthenticationService, private webSocketApi: WebSocketAPI) {
   }
 
   ngOnInit(): void {
     this.getAllDevices();
     this.getAllUsers();
+
   }
 
   openUserDialog() {
@@ -184,7 +186,7 @@ export class AdminComponent implements OnInit {
 
   chatWithUsers(row: any) {
     if(row.username === 'user1') {
-      this.chatWithUser1 = !this.chatWithUser2;
+      this.chatWithUser1 = !this.chatWithUser1;
     }
     if(row.username === 'user2') {
       this.chatWithUser2 = !this.chatWithUser2;

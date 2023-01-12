@@ -68,4 +68,7 @@
             [type]="'bar'">
     </canvas>
   </div>
+  <div class="chat">
+    <app-chat-ui  [receiver]="'admin'" [chatWithAdmin]="chatWithAdm" *ngIf="chatWithAdm"></app-chat-ui>
+  </div>
 </div>

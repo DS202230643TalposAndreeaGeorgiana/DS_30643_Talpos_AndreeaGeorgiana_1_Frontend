@@ -2,7 +2,6 @@
 // file: chat.proto
 
 var chat_pb = require("./chat_pb");
-var google_protobuf_empty_pb = require("google-protobuf/google/protobuf/empty_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var ChatService = (function () {
@@ -26,7 +25,7 @@ ChatService.SendMessage = {
   requestStream: false,
   responseStream: false,
   requestType: chat_pb.ChatMessage,
-  responseType: google_protobuf_empty_pb.Empty
+  responseType: chat_pb.Empty
 };
 
 ChatService.Ping = {
